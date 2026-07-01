@@ -1,107 +1,101 @@
-# Backend Geoportal
+# 🗺️ Backend Geoportal
 
-Backend desarrollado en Django para gestionar información geoespacial y datos relacionados con parques, calles, personas y usuarios.
+**Backend Geoportal** es una API REST desarrollada con [Django](https://www.djangoproject.com/), pensada para dar soporte a una aplicación tipo geoportal. Expone endpoints para consultar y gestionar entidades geoespaciales, con autenticación de usuarios por sesión para proteger las operaciones de escritura. El proyecto está totalmente **dockerizado**, con configuraciones diferenciadas para entornos de desarrollo y producción.
 
-## Descripción
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-5.0-092E20?logo=django&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
+![Gunicorn](https://img.shields.io/badge/Gunicorn-Production-499848?logo=gunicorn&logoColor=white)
 
-Este proyecto expone una API en Django y está preparado para ejecutarse con Docker. El backend organiza la lógica en una aplicación principal llamada `appjuavaal2`, donde se definen modelos, vistas, rutas y módulos auxiliares para el procesamiento de datos.
+---
 
-## Tecnologías
+## 📑 Tabla de contenidos
 
-- Python 3
-- Django 5
-- PostgreSQL + psycopg2
-- Docker / Docker Compose
-- Gunicorn
+- [Funcionalidades](#-funcionalidades)
+- [Estructura del proyecto](#-estructura-del-proyecto)
+- [Compilación e instalación](#️-compilación-e-instalación)
+- [Variables de entorno](#-variables-de-entorno)
+- [Tecnologías usadas](#-tecnologías-usadas)
+- [Notas](#-notas)
 
-## Estructura del proyecto
+---
 
-```text
-.
-├── docker-compose.yml
-├── docker-compose.prod.yml
-├── create_tables.sh
-├── init_db.sh
-├── insert_values.sh
-├── .env
-├── .env.dev
-└── juavaal2/
+## 🚀 Funcionalidades
+
+- 🌐 API REST lista para ser consumida por un frontend web o móvil (CORS habilitado)
+- 📍 Gestión de entidades geoespaciales del geoportal (consulta, alta, modificación y baja)
+- 🔐 Autenticación de usuarios por sesión, con endpoints protegidos para las operaciones de escritura
+- 🐳 Despliegue mediante Docker / Docker Compose, con perfiles separados de desarrollo y producción
+- ⚙️ Configuración basada en variables de entorno, sin credenciales embebidas en el código
+
+---
+
+## 📁 Estructura del proyecto
+
+```
+Backend_Geoportal/
+│
+├── docker-compose.yml          # Orquestación en modo desarrollo
+├── docker-compose.prod.yml     # Orquestación en modo producción
+├── scripts/ (*.sh)             # Scripts auxiliares de gestión de la base de datos
+│
+└── juavaal2/                   # Proyecto Django
     ├── manage.py
     ├── requirements.txt
-    ├── settings.py
-    ├── appjuavaal2/
-    │   ├── models.py
-    │   ├── views.py
-    │   ├── viewsUsers.py
-    │   ├── urls.py
-    │   ├── tests.py
-    │   └── pycode/
-    └── juavaal2/
-        ├── settings.py
-        ├── urls.py
-        ├── wsgi.py
-        └── asgi.py
+    ├── Dockerfile
+    │
+    ├── juavaal2/                # Configuración del proyecto (settings, urls, wsgi/asgi)
+    └── appjuavaal2/             # Aplicación principal de la API (vistas, rutas, modelos y lógica de negocio)
 ```
 
-## Requisitos previos
+---
 
-- Python 3.10 o superior
-- Docker y Docker Compose
-- PostgreSQL creado previamente y accesible
+## ⚙️ Compilación e instalación
 
-## Variables de entorno
+### Con Docker (recomendado)
 
-Crea o ajusta los archivos `.env` y `.env.dev` con valores como los siguientes:
-
-```env
-POSTGRES_DB=tu_base
-POSTGRES_USER=tu_usuario
-POSTGRES_PASSWORD=tu_password
-POSTGRES_HOST=tu_host
-POSTGRES_PORT=5432
-DEBUG=True
-DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
-DEVELOP_DOCKER_DJANGO_API_FORWARDED_PORT=8000
+```bash
+git clone https://github.com/jrvalza/Backend_Geoportal.git
+cd Backend_Geoportal
 ```
 
-## Ejecutar con Docker
-
-1. Asegúrate de que la base de datos exista y que la red `postgis_postgis` esté disponible.
-2. Ejecuta:
+Desarrollo (con recarga en caliente):
 
 ```bash
 docker compose up --build
 ```
 
-La API quedará disponible en:
-
-```text
-http://localhost:8000
-```
-
-## Ejecutar localmente
+Producción:
 
 ```bash
-cd juavaal2
-python -m venv .venv
-source .venv/bin/activate  # En Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
+docker compose -f docker-compose.prod.yml up --build -d
 ```
 
-## Crear superusuario
+La API quedará disponible en `http://localhost:8000/`.
 
-```bash
-python manage.py createsuperuser
-```
+---
 
-## Notas
+## 🔧 Variables de entorno
 
-- El proyecto está pensado para funcionar como backend de una aplicación geoportal.
-- La lógica de negocio específica se encuentra en la carpeta `appjuavaal2/pycode`.
-- Los scripts `create_tables.sh`, `init_db.sh` e `insert_values.sh` pueden utilizarse para preparar la base de datos y cargar datos iniciales.
+El proyecto lee su configuración desde ficheros `.env` / `.env.dev` / `.env.prod` (no incluido en el repositorio), con datos para la conexión a base de datos, el modo `DEBUG` y los puertos expuestos por cada entorno.
 
-## Licencia
+---
 
-Este proyecto no incluye una licencia definida en este momento.
+## 🧠 Tecnologías usadas
+
+| Tecnología | Uso |
+|---|---|
+| ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) | Lenguaje principal |
+| ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) | Framework web, enrutado, autenticación y sesiones |
+| ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) | Empaquetado y orquestación de servicios |
+| ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) | Base de datos |
+| ![Gunicorn](https://img.shields.io/badge/gunicorn-%298729.svg?style=for-the-badge&logo=gunicorn&logoColor=white) | Servidor WSGI en producción |
+
+
+---
+
+## 📌 Notas
+
+- El backend está pensado para funcionar como servicio independiente, consumido por un frontend web o una aplicación móvil de geoportal.
+- La configuración diferenciada entre `docker-compose.yml` y `docker-compose.prod.yml` permite mantener un flujo de desarrollo ágil sin afectar al despliegue en producción.
