@@ -1,14 +1,8 @@
-'''
-Created on 7 mar. 2024
-@author: vagrant
-'''
-#from dbconnection import Conn 
 from .connPOO import Conn
 
 class People():
     conn:Conn
     
-    #Constructor
     def __init__(self, conn:Conn):
         self.conn = conn
       
@@ -38,10 +32,6 @@ class People():
             ms = str(e).split(':')[1].strip()
             return {'ok':False, 'message': ms}
 
-            
-
-    
-    
     def update(self, data:dict) -> dict:
         """Update a People based in the dni"""
         #Row and data to update
@@ -69,8 +59,6 @@ class People():
         elif n > 1:
             return {'ok':False, 'message': f'Demasiadas personas actualizadas. Filas afectadas : {n}', 'data':[{'numOfRowsAffected':n}]}
         
-    
-    
     def delete(self, dni:int) -> dict:
         """Delete a People based in the dni"""
         #Delete
@@ -89,9 +77,7 @@ class People():
             return {'ok':True, 'message': f'Persona borrada. Filas afectadas : {n}', 'data':[{'numOfRowsAffected':n, 'DNI':dni}]}
         elif n > 1:
             return {'ok':False, 'message': f'Demasiadas personas borradas. Filas afectadas : {n}', 'data':[{'numOfRowsAffected':n}]}
-
-
-        
+   
     def select(self, dni=None) -> dict:
         """select by dni as dictionary"""
         if dni:
@@ -129,4 +115,3 @@ class People():
                 n = len(r)
                 return {'ok':True, 'message': f'Personas seleccionadas: {n}', 'data':r}
         
-

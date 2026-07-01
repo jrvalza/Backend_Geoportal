@@ -1,16 +1,9 @@
-'''
-Created on 7 mar. 2024
-@author: vagrant
-'''
-#from dbconnection import Conn 
 from .connPOO import Conn
 from .geometryChecks import checkIntersection, checkDistance
-
 
 class Streets():
     conn:Conn
     
-    #Constructor
     def __init__(self, conn:Conn):
         self.conn = conn
       
@@ -22,8 +15,6 @@ class Streets():
         ncarril = data['ncarril']
         geometryWKT = data['geom']
 
-
-
         #Check geometry
         r = checkIntersection('d.streets', 'd.parks', geometryWKT, 25830)
         if r:
@@ -33,7 +24,6 @@ class Streets():
         if r:
             return {'ok':False, 'message': 'La calle esta muy cerca o demasiado lejos de otra entidad', 'data':[]}
         
-
         #Insertion
         query = """
                 INSERT INTO d.streets (nombre, tipo, ncarril, longitud, geom)
@@ -47,8 +37,6 @@ class Streets():
         gid = self.conn.cursor.fetchall()[0][0]
         return {'ok':True, 'message': f'Carretera insertada. gid: {gid}', 'data':[{'gid':gid}]}
         
-            
-    
     def update(self, data:dict) -> dict:
         """Update a Streets based in the gid"""
         #Row and data to update
@@ -86,7 +74,6 @@ class Streets():
         elif n > 1:
             return {'ok':False, 'message': f'Demasiadas carreteras actualizadas. Filas afectadas : {n}', 'data':[{'numOfRowsAffected':n}]}
         
-    
     def delete(self, gid:int) -> dict:
         """Deletes a Streets based in the gid"""
         #Delete
@@ -106,7 +93,6 @@ class Streets():
         elif n > 1:
             return {'ok':False, 'message': f'Demasiadas carreteras borradas. Filas afectadas : {n}', 'data':[{'numOfRowsAffected':n}]}
         
-
     def select(self, gid=None) -> dict:
         """select by gid as dictionary"""
         if gid:
@@ -144,8 +130,6 @@ class Streets():
                 n = len(r)
                 return {'ok':True, 'message': f'Carreteras seleccionadas: {n}', 'data':r}
         
-
-
     def select_xy(self, x, y) -> dict:
         """select by x,y click in map as dictionary"""
         

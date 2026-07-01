@@ -1,4 +1,4 @@
-#the database djdesweb must be created previously
+#the database must be created previously
 
 services:
   juavaal2:

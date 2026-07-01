@@ -1,4 +1,3 @@
-
 #Dev imports
 import json
 from .pycode import connPOO
@@ -6,7 +5,6 @@ from .pycode import people
 from .pycode import parks
 from .pycode import streets
 from .pycode.libs import general
-
 
 #Django imports
 from django.views import View
@@ -23,12 +21,10 @@ class HelloWord(View):
     def get(self, request):
         return JsonResponse({"ok":True, "message": "Hello world", "data":[] })
 
-
-
 class Parks(View):
     #Select by gid
     def get(self, request):
-        #conection
+        #connection
         conn=connPOO.Conn()
         b=parks.Parks(conn)
 
@@ -39,18 +35,17 @@ class Parks(View):
             r=b.select()
         return JsonResponse(r)
 
-
 class ProtectedParks(LoginRequiredMixin, View):
     #Insert, Update and Delete
     def post(self, request):
-        #conection
+        #connection
         conn=connPOO.Conn()
         b=parks.Parks(conn)
 
-        
         #action = request.POST['action']
         d=general.getPostFormData(request)
         action=d['action']
+        
         #Insert
         if action == 'insert':
             #data to insert
@@ -89,14 +84,10 @@ class ProtectedParks(LoginRequiredMixin, View):
             r=b.delete(gid)
             return JsonResponse(r)
 
-
-
-
-
 class Streets(View):
     #Select by gid
     def get(self, request):
-        #conection
+        #connection
         conn=connPOO.Conn()
         b=streets.Streets(conn)
 
@@ -107,12 +98,10 @@ class Streets(View):
             r=b.select()
         return JsonResponse(r)
     
-
-
 class Streets_xy(View):
     #Select by gid
     def get(self, request):
-        #conection
+        #connection
         conn=connPOO.Conn()
         b=streets.Streets(conn)
 
@@ -125,7 +114,7 @@ class Streets_xy(View):
 class ProtectedStreets(LoginRequiredMixin, View):
     #Insert, Update and Delete
     def post(self, request):
-        #conection
+        #connection
         conn=connPOO.Conn()
         b=streets.Streets(conn)
 
@@ -174,14 +163,11 @@ class ProtectedStreets(LoginRequiredMixin, View):
             r=b.delete(gid)
             return JsonResponse(r)
 
-
-
-
 class People(View):
     
     #Select by dni
     def get(self, request):
-        #conection
+        #connection
         conn=connPOO.Conn()
         b=people.People(conn)
         
@@ -192,11 +178,10 @@ class People(View):
             r=b.select()
         return JsonResponse(r)
         
-
 class ProtectedPeople(LoginRequiredMixin, View): 
     #Insert, Update and Delete
     def post(self, request):
-        #conection
+        #connection
         conn=connPOO.Conn()
         b=people.People(conn)
 
@@ -248,13 +233,3 @@ class ProtectedPeople(LoginRequiredMixin, View):
             dni=d['dni']
             r=b.delete(dni)
             return JsonResponse(r)
-
-
-        
-
-
-
-  
-
-
-

@@ -11,12 +11,10 @@ def notLoggedIn(request):
                         "data": []
                         })
 
-
 class AppLogin(View):
     def post(self, request):
         r=users.appLogin(request)
         return JsonResponse(r)
-
 
 class AppLogout(View):
     def get(self, request):

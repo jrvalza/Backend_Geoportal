@@ -1,10 +1,5 @@
-
-
 from django.urls import path
 from appjuavaal2 import views, viewsUsers
-
-
-
 
 urlpatterns = [    
     path('hello_world/',views.HelloWord.as_view()),
@@ -12,7 +7,6 @@ urlpatterns = [
     path('not_logged_in/',viewsUsers.notLoggedIn),
     path('app_login/',viewsUsers.AppLogin.as_view()),
     path('app_logout/',viewsUsers.AppLogout.as_view()),
-
 
     path('parks/',views.Parks.as_view()),
     path('streets/',views.Streets.as_view()),
@@ -25,9 +19,3 @@ urlpatterns = [
     path('streets_xy/',views.Streets_xy.as_view()),
     
     ]
-
-
-
-
-
-

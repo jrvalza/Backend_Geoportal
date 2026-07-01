@@ -1,16 +1,9 @@
-'''
-Created on 7 mar. 2024
-@author: vagrant
-'''
-
-#from dbconnection import Conn 
 from .connPOO import Conn
 from .geometryChecks import checkIntersection, checkDistance
 
 class Parks():
     conn:Conn
     
-    #Constructor
     def __init__(self, conn:Conn):
         self.conn = conn
       
@@ -25,13 +18,11 @@ class Parks():
         r = checkIntersection('d.parks', 'd.streets', geometryWKT, 25830)
         if r:
             return {'ok':False, 'message': 'El parque intersecta con otro o con una calle', 'data':[]}
-
-        
+    
         r = checkDistance('d.parks', 'd.streets', geometryWKT, 25830)
         if r:
             return {'ok':False, 'message': 'El parque esta muy cerca o demasiado lejos de otra entidad', 'data':[]}
     
-
         #Insertion
         query = """
                 INSERT INTO d.parks (nombre, descripcion, xcoord, ycoord, geom)
@@ -43,7 +34,6 @@ class Parks():
         #List of gid inserted
         gid = self.conn.cursor.fetchall()[0][0]
         return {'ok':True, 'message': f'Parque insertado. gid: {gid}', 'data':[{'gid':gid}]}
-    
     
     def update(self, data:dict) -> dict:
         """Update a Parks based in the gid"""
@@ -76,7 +66,6 @@ class Parks():
         elif n > 1:
             return {'ok':False, 'message': f'Demasiados parques actualizados. Filas afectadas : {n}', 'data':[{'numOfRowsAffected':n}]}
 
-    
     def delete(self, gid:int) -> dict:
         """Deletes a Parks based in the gid"""
         #Delete
@@ -95,8 +84,6 @@ class Parks():
             return {'ok':True, 'message': f'Parque borrado. Filas afectadas : {n}', 'data':[{'numOfRowsAffected':n, 'gid':gid}]}
         elif n > 1:
             return {'ok':False, 'message': f'Demasiados parques borrados. Filas afectadas : {n}', 'data':[{'numOfRowsAffected':n}]}
-
-        
 
     def select(self, gid=None) -> dict:
         """select by gid as dictionary"""
@@ -135,4 +122,3 @@ class Parks():
                 n = len(r)
                 return {'ok':True, 'message': f'Parques seleccionados: {n}', 'data':r}
         
-

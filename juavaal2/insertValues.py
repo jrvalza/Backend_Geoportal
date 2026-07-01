@@ -22,7 +22,6 @@ data2 = {'nombre':'Turia', 'descripcion':'Parque urbano público situado en el a
 b.insert(data1)
 b.insert(data2)
 
-
 #Insert streets
 b = Streets(conn)
 data1 = {'nombre':'Viver', 'tipo':'Calle', 'ncarril':1, 'geom': "LINESTRING(198231 263418,198213 268322)"}
@@ -30,7 +29,5 @@ data2 = {'nombre':'Primat Reig', 'tipo':'Avenida', 'ncarril':3, 'geom': "LINESTR
 b.insert(data1)
 b.insert(data2)
 
-
 conn.conn.commit()
 print('Finalizado')
-

@@ -3,12 +3,10 @@ from appjuavaal2.pycode.connPOO import Conn
 
 conn = Conn()
 
-
-
-#Extension postgis
+# PostGIS extension
 conn.cursor.execute("SELECT 1 FROM pg_extension WHERE extname = 'postgis'")
 extension_exist = conn.cursor.fetchone()
-# Si la extensión no existe, crearla
+# If the extension does not exist, create it
 if not extension_exist:
     conn.cursor.execute("CREATE EXTENSION postgis")
     print('extension postgis has been created')
@@ -16,8 +14,7 @@ else:
     print('extension postgis already exists')
 
 
-
-#Schema JR
+# JR schema 
 print("creando schema d")
 conn.cursor.execute("""
     DO $$
@@ -29,9 +26,7 @@ conn.cursor.execute("""
 """)
 
 
-
-
-#Table demo
+# demo table
 print("creando tabla demo")
 conn.cursor.execute("""
     DO $$
@@ -46,8 +41,7 @@ conn.cursor.execute("""
 """)
 
 
-
-#Table people
+# people table
 print("creando tabla people")
 conn.cursor.execute("""
     DO $$
@@ -65,7 +59,7 @@ conn.cursor.execute("""
 """)
 
 
-#Table parks
+# parks table
 print("creando tabla parks")
 conn.cursor.execute("""
     DO $$
@@ -84,7 +78,7 @@ conn.cursor.execute("""
 """)
 
 
-#Table streets
+# Streets table
 print("creando tabla streets")
 conn.cursor.execute("""
     DO $$

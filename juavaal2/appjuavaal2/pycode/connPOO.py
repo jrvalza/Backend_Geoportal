@@ -1,9 +1,3 @@
-'''
-Created on 27 feb. 2024
-
-@author: vagrant
-'''
-import psycopg2
 from django.db import connection as conn
 
 class Conn():

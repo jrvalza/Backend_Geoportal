@@ -16,8 +16,8 @@ def checkIntersection(layerName1, layerName2, geometryWkt, epsg):
             OR ST_Intersects(l2.geom, ST_Buffer(ST_Geometryfromtext(%s,%s),0.02))"""
             
     cursor.execute(q,[geometryWkt,epsg,geometryWkt,epsg])
-    r=cursor.fetchall()  #() si no hay nada, none
-                        #((1,),(2,), ...)
+    r=cursor.fetchall()  #if there's nothing, none
+                         #((1,),(2,), ...)
     if r is None:
         return False
 
@@ -26,7 +26,6 @@ def checkIntersection(layerName1, layerName2, geometryWkt, epsg):
     else:
         return False
     
-
 def checkDistance(layerName1, layerName2, geometryWkt, epsg):
     conn = connPOO.Conn()
     cursor = conn.cursor
@@ -34,7 +33,7 @@ def checkDistance(layerName1, layerName2, geometryWkt, epsg):
     total1 =None
     total2 =None
 
-    #Comprobacion con layer 1
+    #Verification using Layer 1
     q=f"""  SELECT gid
             FROM {layerName1}
             WHERE ST_DWithin(geom, ST_Geometryfromtext(%s,%s),50)
@@ -44,12 +43,12 @@ def checkDistance(layerName1, layerName2, geometryWkt, epsg):
                             )
         """
     cursor.execute(q,[geometryWkt, epsg, geometryWkt, epsg])
-    r=cursor.fetchall()#si no hay nada, none
-                        #((1,),(2,), ...)
+    r=cursor.fetchall()
+
     if r:
         total1 = len(r)
     
-    #Comprobación con layer 2
+    #Verification using Layer 2
     q=f"""  SELECT gid
             FROM {layerName2}
             WHERE ST_DWithin(geom, ST_Geometryfromtext(%s,%s),50)
@@ -73,6 +72,4 @@ def checkDistance(layerName1, layerName2, geometryWkt, epsg):
     else:
         return False
     
-
-
 #OR NOT ST_DWithin(l1.geom, ST_Geometryfromtext(%s,%s),1000)

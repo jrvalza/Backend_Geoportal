@@ -5,14 +5,13 @@ from django.contrib.auth.models import User
 from .libs import general
 from django.contrib.auth import authenticate, login
 
-
-
 def appLogin(request):
     #django puts im every request the object ’user’,
     #which is of the class from django.contrib.auth.models.User
     #this object is used to get the user data
-    #Las cookies en DJango duran un mes por defecto, pero se pueden configurar a un determinado tiempo o accion
-    if request.user.is_authenticated: #aqui saca la cookie del navegador para identificar si esta autenticado
+    
+    #Cookies in Django last for one month by default, but they can be configured to last for a specific amount of time or to be triggered by a specific action
+    if request.user.is_authenticated: #Here, it retrieves the cookie from the browser to determine whether you are logged in.
         groups = general.getUserGroups(request.user)
         return {"ok":True,"message": "You where already authenticated", "data":[{"username": request.user.username, 'groups': groups}]}
     
@@ -41,5 +40,3 @@ def appLogin(request):
                          "userGroups":general.getUserGroups(user=request.user)}]}
     else:
         return {"ok":False,"message": "Wrong user or password", "data":[]}
-
-
