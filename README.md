@@ -66,7 +66,7 @@ cd Backend_Geoportal
 Development (with hot reload):
 
 ```bash
-docker compose up --build
+docker compose -f docker-compose.yml up --build
 ```
 
 Production:
