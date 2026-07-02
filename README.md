@@ -9,6 +9,10 @@
 
 ---
 
+![Inicio app](misc/django_mvc_flow_docker.png)
+
+---
+
 ## 📑 Table of contents
 
 - [Features](#-features)
